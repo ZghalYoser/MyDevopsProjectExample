@@ -1,0 +1,12 @@
+<div class="blog-cover">
+    <img src="https://www.turing.com/blog/wp-content/uploads/2022/08/6-Best-DevOps-Practices-to-Know-scaled.jpg" alt="Couverture">
+  </div>
+  
+  <div class="blog-posts-container">
+    <div *ngFor="let post of blogPosts" class="blog-post">
+      <h2>{{ post.title }}</h2>
+      <p>{{ post.content }}</p>
+      <img *ngIf="post.image" [src]="post.image" alt="Image de l'article" class="post-image">
+    </div>
+  </div>
+  
