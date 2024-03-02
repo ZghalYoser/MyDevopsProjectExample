@@ -12,9 +12,6 @@ RUN npm install
 
 # Copy app source code to /app
 COPY . .
-# Expose port 80 for the container
-EXPOSE 80
 
 
-# Start the app
-CMD ["npm", "start"]
+CMD ["npm", "run", "start", "--", "--host", "0.0.0.0"]
