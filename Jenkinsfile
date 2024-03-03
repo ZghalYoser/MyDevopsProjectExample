@@ -35,12 +35,5 @@ pipeline {
         }
     }
     
-    post {
-        always {
-            // Nettoyer : Supprimer les conteneurs à la fin du pipeline
-            bat 'docker rm -f %DJANGO_CONTAINER% %ANGULAR_CONTAINER% || true'
-            // Optionnel : Supprimer les images si vous ne voulez pas les conserver
-            // bat 'docker rmi %DJANGO_IMAGE% %ANGULAR_IMAGE% || true'
-        }
-    }
+  
 }
