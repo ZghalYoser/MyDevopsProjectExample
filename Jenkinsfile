@@ -1,67 +1,30 @@
 pipeline {
     agent any
-
-    environment {
-        DJANGO_SETTINGS_MODULE = 'your_project.settings'
-    }
-
+    
     stages {
-        stage('Préparation') {
+        stage('Build and Run Django') {
             steps {
-                checkout scm
-            }
-        }
-        
-        stage('Installer Dépendances Backend') {
-            steps {
-                dir('backend') {
-                    sh 'python -m venv venv'
-                    sh '. venv/bin/activate'
-                    sh 'pip install -r requirements.txt'
+                dir('monprojetdjango') {
+                    script {
+                        // Construire l'image Docker pour Django
+                        sh 'docker build -t monprojetdjango .'
+                        // Exécuter l'image Docker en tant que conteneur
+                        sh 'docker run -d -p 8000:8000 monprojetdjango'
+                    }
                 }
             }
         }
-
-        stage('Tester Backend') {
+        stage('Build and Run Angular') {
             steps {
-                dir('backend') {
-                    sh '. venv/bin/activate'
-                    sh 'python manage.py test'
+                dir('monAppAngular') {
+                    script {
+                        // Construire l'image Docker pour Angular
+                        sh 'docker build -t monappangular .'
+                        // Exécuter l'image Docker en tant que conteneur
+                        sh 'docker run -d -p 4200:4200 monappangular'
+                    }
                 }
-            }
-        }
-        
-        stage('Installer Dépendances Frontend') {
-            steps {
-                dir('frontend') {
-                    sh 'npm install'
-                }
-            }
-        }
-
-        stage('Construire Frontend') {
-            steps {
-                dir('frontend') {
-                    sh 'npm run build'
-                }
-            }
-        }
-
-        stage('Tester Frontend') {
-            steps {
-                dir('frontend') {
-                    sh 'npm test'
-                }
-            }
-        }
-
-        stage('Déployer') {
-            steps {
-                // Ajoutez vos commandes de déploiement ici
-                // Par exemple, déployer sur un serveur ou un service cloud
-                echo 'Déployer le backend et le frontend'
             }
         }
     }
 }
-

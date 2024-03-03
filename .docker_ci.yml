@@ -1,0 +1,49 @@
+stages:
+  - build
+  - test
+  - deploy
+
+build_backend:
+  stage: build
+  script:
+    - cd backend
+    - virtualenv venv
+    - source venv/bin/activate
+    - pip install -r requirements.txt
+    - python manage.py collectstatic --no-input
+  only:
+    - main
+
+test_backend:
+  stage: test
+  script:
+    - cd backend
+    - source venv/bin/activate
+    - python manage.py test
+  only:
+    - main
+
+build_frontend:
+  stage: build
+  script:
+    - cd frontend
+    - npm install
+    - npm run build
+  only:
+    - main
+
+test_frontend:
+  stage: test
+  script:
+    - cd frontend
+    - npm run test
+  only:
+    - main
+
+deploy:
+  stage: deploy
+  script:
+    - echo "Déploiement de l'application"
+    # Ajoutez ici les commandes de déploiement
+  only:
+    - main
