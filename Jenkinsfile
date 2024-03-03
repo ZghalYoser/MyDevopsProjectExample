@@ -1,6 +1,6 @@
 pipeline {
     agent any
-    
+
     stages {
         stage('Build and Run Django') {
             steps {
@@ -13,13 +13,14 @@ pipeline {
             }
         }
         stage('Build and Run Angular') {
-          steps {
+            steps {
                 dir('monAppAngular') {
                     // Construire l'image Docker pour Angular
                     bat 'docker build -t monappangular .'
                     // Exécuter l'image Docker en tant que conteneur
-                    bat 'docker run -d -p 4202:4200 monappangular'
+                    bat 'docker run -d -p 4201:4200 monappangular'
                 }
+            }
         }
     }
 }
