@@ -13,11 +13,12 @@ pipeline {
             }
         }
         stage('Build and Run Angular') {
-           steps {
+          steps {
                 dir('monAppAngular') {
+                    // Construire l'image Docker pour Angular
                     bat 'docker build -t monappangular .'
-                    bat 'docker run -d -P monappangular'
-                    bat 'docker port nom_conteneur_angular'
+                    // Exécuter l'image Docker en tant que conteneur
+                    bat 'docker run -d -p 4202:4200 monappangular'
                 }
         }
     }
