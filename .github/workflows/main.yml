@@ -7,30 +7,26 @@ on:
     branches: [ main ]
 
 jobs:
-  build-docker-images:
+  build-and-run-docker-images:
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v2
 
     - name: Build Django Docker image
-      run: |
-        docker build -t my-django-app -f Dockerfile-django .
+      run: docker build -t my-django-app ./monprojetdjango
       env:
         DB_NAME: ${{ secrets.DB_NAME }}
         DB_ENFORCE_SCHEMA: ${{ secrets.DB_ENFORCE_SCHEMA }}
         DB_HOST: ${{ secrets.DB_HOST }}
 
     - name: Build Angular Docker image
-      run: |
-        docker build -t my-angular-app -f Dockerfile-angular .
+      run: docker build -t my-angular-app ./monAppAngular
 
+    # Note: Running containers directly in GitHub Actions job is typically for testing purposes.
+    # Deploying to a host would require additional steps not shown here.
     - name: Run Django container
-      run: |
-        docker run -d -p 8000:8000 my-django-app
+      run: docker run -d -p 8000:8000 my-django-app
 
     - name: Run Angular container
-      run: |
-        docker run -d -p 4200:4200 my-angular-app
-
-
+      run: docker run -d -p 4200:4200 my-angular-app
