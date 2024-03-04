@@ -17,7 +17,7 @@ pipeline {
                     // Construire l'image Docker pour Django
                     bat 'docker build -t %DJANGO_IMAGE% .'
                     // Exécuter l'image Docker en tant que conteneur
-                    bat 'docker run -d --name %DJANGO_CONTAINER% -p 8000:8000 %DJANGO_IMAGE%'
+                    bat 'docker run -d --name %DJANGO_CONTAINER% -p 8002:8000 %DJANGO_IMAGE%'
                 }
             }
         }
